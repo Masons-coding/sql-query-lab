@@ -1,0 +1,344 @@
+.loading {
+  font-family: var(--mono);
+  color: var(--muted);
+  padding: 2rem 0;
+}
+
+.lab {
+  align-items: start;
+}
+
+.sidebar {
+  position: sticky;
+  top: 4.5rem;
+  max-height: calc(100vh - 6rem);
+  overflow: auto;
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    position: static;
+    max-height: none;
+  }
+}
+
+.small {
+  font-size: 0.85rem;
+}
+
+/* ---------- Progress + challenge list ---------- */
+.progress {
+  margin-bottom: 0.9rem;
+}
+
+.progress__label {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+.progress__bar {
+  height: 0.45rem;
+  border-radius: 999px;
+  background: rgba(0, 173, 255, 0.12);
+  overflow: hidden;
+}
+
+.progress__fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--cyan), var(--green));
+  transition: width 0.4s ease;
+}
+
+.challenge-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.challenge-list .level {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--orange);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0.6rem 0 0.1rem;
+}
+
+.challenge-list button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-align: left;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0.55rem;
+  padding: 0.45rem 0.6rem;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.challenge-list button:hover {
+  background: rgba(0, 173, 255, 0.08);
+  color: var(--text);
+}
+
+.challenge-list button[aria-current="true"] {
+  border-color: var(--border-strong);
+  background: rgba(0, 173, 255, 0.12);
+  color: var(--text);
+}
+
+.check {
+  flex-shrink: 0;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-strong);
+  display: grid;
+  place-items: center;
+  font-size: 0.7rem;
+}
+
+.solved .check {
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--navy);
+}
+
+/* ---------- Schema tree ---------- */
+.schema-table {
+  margin-bottom: 0.4rem;
+}
+
+.schema-table button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background: none;
+  border: none;
+  color: var(--cyan);
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 0.3rem 0;
+  cursor: pointer;
+}
+
+.schema-table button:hover {
+  color: #fff;
+}
+
+.schema-table ul {
+  list-style: none;
+  padding-left: 0.8rem;
+  border-left: 1px solid var(--border);
+  margin-bottom: 0.4rem;
+}
+
+.schema-table li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--text);
+  padding: 0.1rem 0;
+}
+
+.schema-table li span {
+  color: var(--muted);
+}
+
+.pk {
+  color: var(--yellow) !important;
+}
+
+.fk {
+  color: var(--purple) !important;
+}
+
+/* ---------- Workspace ---------- */
+.workspace {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-width: 0;
+}
+
+.challenge h2 {
+  margin: 0.5rem 0 0.4rem;
+}
+
+.challenge__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.challenge__concepts .tag {
+  margin-right: 0.3rem;
+  background: transparent;
+}
+
+.challenge__actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.challenge .callout {
+  margin-top: 0.8rem;
+}
+
+.editor-panel textarea {
+  min-height: 12rem;
+  tab-size: 2;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.75rem;
+}
+
+.toolbar__spacer {
+  flex: 1;
+}
+
+.shortcut {
+  margin-top: 0.6rem;
+}
+
+kbd {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  border: 1px solid var(--border);
+  border-radius: 0.3rem;
+  padding: 0.05rem 0.35rem;
+}
+
+/* ---------- Results ---------- */
+.results__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.results__table {
+  max-height: 26rem;
+  border: 1px solid var(--border);
+  border-radius: 0.6rem;
+}
+
+.results__table:empty {
+  display: none;
+}
+
+.results__table td.null {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.results__table td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.verdict {
+  border-radius: 0.6rem;
+  padding: 0.7rem 1rem;
+  margin-bottom: 0.8rem;
+  font-weight: 700;
+}
+
+.verdict--pass {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.6);
+  color: #4ade80;
+}
+
+.verdict--fail {
+  background: rgba(227, 79, 38, 0.12);
+  border: 1px solid rgba(227, 79, 38, 0.6);
+  color: #ff9f7f;
+}
+
+.plan {
+  list-style: none;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  padding: 0.8rem 1rem;
+}
+
+.plan ul {
+  list-style: none;
+  padding-left: 1.4rem;
+}
+
+.plan li::before {
+  content: "└─ ";
+  color: var(--muted);
+}
+
+.plan .scan {
+  color: var(--orange);
+}
+
+.plan .search {
+  color: #4ade80;
+}
+
+.history {
+  margin-top: 1rem;
+}
+
+.history summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.history ol {
+  list-style: none;
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.history button {
+  width: 100%;
+  text-align: left;
+  background: #050b20;
+  border: 1px solid var(--border);
+  border-radius: 0.45rem;
+  padding: 0.4rem 0.6rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.history button:hover {
+  color: var(--text);
+  border-color: var(--cyan);
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.85em;
+  color: var(--cyan);
+}

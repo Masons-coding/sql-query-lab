@@ -1,0 +1,16 @@
+{
+  "name": "sql-query-lab",
+  "version": "1.0.0",
+  "description": "In-browser SQLite playground with an airline-loyalty dataset and auto-graded SQL challenges.",
+  "type": "module",
+  "private": true,
+  "author": "Mason Clarke",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test",
+    "start": "npx --yes serve ."
+  },
+  "devDependencies": {
+    "sql.js": "1.14.2"
+  }
+}

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="SQL Query Lab by Mason Clarke — a real SQLite database running in your browser with auto-graded SQL challenges, from SELECT to window functions." />
+    <meta name="theme-color" content="#020617" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://cdnjs.cloudflare.com; connect-src 'self' https://cdnjs.cloudflare.com; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2300adff'/%3E%3Cellipse cx='16' cy='9' rx='9' ry='3.5' fill='%23020617'/%3E%3Cpath d='M7 9v14c0 2 4 3.5 9 3.5s9-1.5 9-3.5V9' fill='none' stroke='%23020617' stroke-width='2.5'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="styles/theme.css" />
+    <link rel="stylesheet" href="styles/app.css" />
+    <title>SQL Query Lab · Mason Clarke</title>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="topbar__brand" href="https://masons-resume-website.netlify.app/"><span class="topbar__logo">MC</span> Mason Clarke</a>
+      <nav class="topbar__links">
+        <a href="https://masons-resume-website.netlify.app/#projects">Portfolio</a>
+        <a href="https://github.com/Masons-coding/sql-query-lab">Source</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <p class="eyebrow">databases &amp; sql</p>
+        <h1>SQL Query Lab</h1>
+        <p class="lead">
+          A real SQLite engine compiled to WebAssembly, running entirely in your browser against <strong>SkyRewards</strong> — an
+          airline-loyalty database with flights, members, bookings, upgrade bids and a points ledger. Solve graded challenges
+          or explore freely; nothing you run can touch a server.
+        </p>
+      </section>
+
+      <p class="loading" id="loading">⏳ Loading SQLite (WebAssembly)…</p>
+
+      <div class="grid grid--sidebar lab" id="lab" hidden>
+        <aside class="panel sidebar">
+          <div class="tabs" role="tablist" aria-label="Sidebar">
+            <button class="tab" role="tab" id="tab-challenges" aria-controls="panel-challenges" data-hash="challenges">Challenges</button>
+            <button class="tab" role="tab" id="tab-schema" aria-controls="panel-schema" data-hash="schema">Schema</button>
+          </div>
+
+          <section id="panel-challenges" role="tabpanel" aria-labelledby="tab-challenges">
+            <div class="progress">
+              <div class="progress__label"><span id="progress-text">0 / 0 solved</span></div>
+              <div class="progress__bar"><div class="progress__fill" id="progress-fill"></div></div>
+            </div>
+            <ol class="challenge-list" id="challenge-list"></ol>
+          </section>
+
+          <section id="panel-schema" role="tabpanel" aria-labelledby="tab-schema" hidden>
+            <p class="muted small">Click a table to preview it.</p>
+            <div id="schema"></div>
+          </section>
+        </aside>
+
+        <div class="workspace">
+          <article class="panel challenge" id="challenge">
+            <div class="challenge__meta">
+              <span class="tag" id="challenge-level"></span>
+              <span class="challenge__concepts" id="challenge-concepts"></span>
+            </div>
+            <h2 id="challenge-title"></h2>
+            <p id="challenge-prompt"></p>
+            <div class="challenge__actions">
+              <button class="btn btn--small" id="hint-btn">💡 Hint</button>
+              <button class="btn btn--small btn--orange" id="solution-btn">Show solution</button>
+            </div>
+            <p class="callout" id="hint" hidden></p>
+          </article>
+
+          <section class="panel editor-panel">
+            <label class="sr-only" for="editor">SQL editor</label>
+            <textarea id="editor" rows="9" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+            <div class="toolbar">
+              <button class="btn btn--primary" id="run-btn" title="Ctrl/⌘ + Enter">▶ Run</button>
+              <button class="btn" id="check-btn">✓ Check answer</button>
+              <button class="btn" id="explain-btn">Explain plan</button>
+              <span class="toolbar__spacer"></span>
+              <button class="btn btn--small" id="csv-btn" disabled>Export CSV</button>
+              <button class="btn btn--small btn--orange" id="reset-btn">Reset DB</button>
+            </div>
+            <p class="muted small shortcut"><kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Enter</kbd> runs the query · <kbd>Tab</kbd> indents</p>
+          </section>
+
+          <section class="panel results">
+            <div class="results__head">
+              <h2>Results</h2>
+              <span class="muted small" id="result-meta"></span>
+            </div>
+            <div id="verdict" class="verdict" hidden></div>
+            <div class="table-wrap results__table" id="result"></div>
+            <details class="history">
+              <summary>Query history</summary>
+              <ol id="history"></ol>
+            </details>
+          </section>
+        </div>
+      </div>
+
+      <details class="learn panel">
+        <summary>How it works</summary>
+        <ul>
+          <li><strong>SQLite in WebAssembly.</strong> <code>sql.js</code> is the real SQLite C library compiled to WASM. It's loaded from a CDN with a Subresource Integrity hash and a strict Content-Security-Policy, so the browser refuses tampered code.</li>
+          <li><strong>Deterministic seed data.</strong> The 1,500+ rows are generated by a seeded PRNG, so every visitor and every CI run sees identical data. Flight distances come from the haversine great-circle formula.</li>
+          <li><strong>Relational design.</strong> Primary and foreign keys, CHECK and UNIQUE constraints, and indexes on the join columns. The test suite runs <code>PRAGMA foreign_key_check</code> to prove referential integrity.</li>
+          <li><strong>Fair grading.</strong> Your query runs on a fresh copy of the database, so earlier UPDATEs or DELETEs can't break an answer. Result sets are compared as multisets, ignoring column aliases and rounding floats to 2 dp. Row order only matters when the question asks for it.</li>
+          <li><strong>Query planning.</strong> <em>Explain plan</em> shows SQLite's <code>EXPLAIN QUERY PLAN</code> as a tree, so you can see when an index is used (<code>SEARCH … USING INDEX</code>) vs. a full table <code>SCAN</code>.</li>
+        </ul>
+      </details>
+    </main>
+
+    <footer class="footer">
+      Built by <a href="https://masons-resume-website.netlify.app/">Mason Clarke</a> · SQLite via sql.js (WebAssembly) ·
+      <a href="https://github.com/Masons-coding/sql-query-lab">View source</a>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.14.2/sql-wasm.min.js" integrity="sha512-3rCfIirhW2xUpZCwDHnpKT5qyOvlt6hsu0Sq1IjP5hW9/k5YWnsLJ/7bF9KTmUgjDSQmvJw40mQDFbrxr647Ag==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
